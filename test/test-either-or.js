@@ -974,4 +974,213 @@ describe('EitherOr', function() {
       1, 3, 5, 6, 7
     ]);
   });
+
+  it('should enumerate values - 01', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2]));
+      trace.push(3);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 3
+    ]);
+  });
+
+  it('should enumerate values - 02', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3]));
+      trace.push(4);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4,
+      1, 3, 4
+    ]);
+  });
+
+  it('should enumerate values - 03', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3, 4]));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5,
+      1, 3, 5,
+      1, 4, 5
+    ]);
+  });
+
+  it('should enumerate values - 04', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3]));
+      trace.push(4);
+      trace.push(eo.choose([5, 6]));
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 5, 7,
+      1, 2, 4, 6, 7,
+      1, 3, 4, 5, 7,
+      1, 3, 4, 6, 7
+    ]);
+  });
+
+  it('should enumerate values - 05', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2]));
+      trace.push(3);
+      trace.push(eo.choose([4, 5, 6]));
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 3, 4, 7,
+      1, 2, 3, 5, 7,
+      1, 2, 3, 6, 7
+    ]);
+  });
+
+  it('should enumerate values - 06', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3, 4]));
+      trace.push(5);
+      trace.push(eo.choose([6]));
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5, 6, 7,
+      1, 3, 5, 6, 7,
+      1, 4, 5, 6, 7
+    ]);
+  });
+
+  it('should enumerate values - 07', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3, 4]));
+      trace.push(5);
+      trace.push(eo.choose([6, 7]));
+      trace.push(8);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5, 6, 8,
+      1, 2, 5, 7, 8,
+      1, 3, 5, 6, 8,
+      1, 3, 5, 7, 8,
+      1, 4, 5, 6, 8,
+      1, 4, 5, 7, 8
+    ]);
+  });
+
+  it('should enumerate values - 08', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3]));
+      trace.push(4);
+      trace.push(eo.choose([5, 6, 7]));
+      trace.push(8);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 5, 8,
+      1, 2, 4, 6, 8,
+      1, 2, 4, 7, 8,
+      1, 3, 4, 5, 8,
+      1, 3, 4, 6, 8,
+      1, 3, 4, 7, 8
+    ]);
+  });
+
+  it('should enumerate values - 09', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([-2, 3], {with: function(e) {return e > 0}}));
+      trace.push(4);
+    });
+    assert.deepEqual(trace, [
+      1, 3, 4
+    ]);
+  });
+
+  it('should enumerate values - 10', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, -3], {with: function(e) {return e > 0}}));
+      trace.push(4);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4
+    ]);
+  });
+
+  it('should enumerate values - 11', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, -3, -4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5
+    ]);
+  });
+
+  it('should enumerate values - 12', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([-2, 3, -4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 3, 5
+    ]);
+  });
+
+  it('should enumerate values - 13', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([-2, -3, 4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 4, 5
+    ]);
+  });
+
+  it('should enumerate values - 14', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3, -4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5,
+      1, 3, 5
+    ]);
+  });
+
+  it('should enumerate values - 15', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, -3, 4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5,
+      1, 4, 5
+    ]);
+  });
+
+  it('should enumerate values - 16', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([-2, 3, 4], {with: function(e) {return e > 0}}));
+      trace.push(5);
+    });
+    assert.deepEqual(trace, [
+      1, 3, 5,
+      1, 4, 5
+    ]);
+  });
 });
