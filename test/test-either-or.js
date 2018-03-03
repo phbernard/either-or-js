@@ -1183,4 +1183,169 @@ describe('EitherOr', function() {
       1, 4, 5
     ]);
   });
+
+  it('should enumerate branches with either... or... and choose - 01', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      eo.either(function() {
+        trace.push(2);
+      }).or(function() {
+        trace.push(3);
+      });
+      trace.push(4);
+      trace.push(eo.choose([5, 6, 7]));
+      trace.push(8);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 5, 8,
+      1, 2, 4, 6, 8,
+      1, 2, 4, 7, 8,
+      1, 3, 4, 5, 8,
+      1, 3, 4, 6, 8,
+      1, 3, 4, 7, 8
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 02', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3, 4]));
+      trace.push(5);
+      eo.either(function() {
+        trace.push(6);
+      }).or(function() {
+        trace.push(7);
+      });
+      trace.push(8);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 5, 6, 8,
+      1, 2, 5, 7, 8,
+      1, 3, 5, 6, 8,
+      1, 3, 5, 7, 8,
+      1, 4, 5, 6, 8,
+      1, 4, 5, 7, 8
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 03', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      trace.push(eo.choose([2, 3]));
+      trace.push(4);
+      eo.either(function() {
+        trace.push(5);
+      }).or(function() {
+        trace.push(6);
+      });
+      trace.push(7);
+      trace.push(eo.choose([8, 9]));
+      trace.push(10);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 5, 7, 8, 10,
+      1, 2, 4, 5, 7, 9, 10,
+      1, 2, 4, 6, 7, 8, 10,
+      1, 2, 4, 6, 7, 9, 10,
+      1, 3, 4, 5, 7, 8, 10,
+      1, 3, 4, 5, 7, 9, 10,
+      1, 3, 4, 6, 7, 8, 10,
+      1, 3, 4, 6, 7, 9, 10
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 04', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      eo.either(function() {
+        trace.push(eo.choose([2, 3, 4]));
+      }).or(function() {
+        trace.push(5);
+      });
+      trace.push(6);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 6,
+      1, 3, 6,
+      1, 4, 6,
+      1, 5, 6
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 05', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      eo.either(function() {
+        trace.push(2);
+      }).or(function() {
+        trace.push(eo.choose([3, 4, 5]));
+      });
+      trace.push(6);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 6,
+      1, 3, 6,
+      1, 4, 6,
+      1, 5, 6
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 06', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      eo.either(function() {
+        trace.push(eo.choose([2, 3]));
+      }).or(function() {
+        trace.push(eo.choose([4, 5, 6]));
+      });
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 7,
+      1, 3, 7,
+      1, 4, 7,
+      1, 5, 7,
+      1, 6, 7
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 07', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      var a = eo.choose([2, 3]);
+      trace.push(a);
+      trace.push(4);
+      eo.either({if: (a === 2)}, function() {
+        trace.push(5);
+      }).or(function() {
+        trace.push(6);
+      });
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 5, 7,
+      1, 2, 4, 6, 7,
+      1, 3, 4, 6, 7
+    ]);
+  });
+
+  it('should enumerate branches with either... or... and choose - 08', function() {
+    EitherOr.runAll(function(eo) {
+      trace.push(1);
+      var a = eo.choose([2, 3]);
+      trace.push(a);
+      trace.push(4);
+      eo.either({if: (a === 3)}, function() {
+        trace.push(5);
+      }).or(function() {
+        trace.push(6);
+      });
+      trace.push(7);
+    });
+    assert.deepEqual(trace, [
+      1, 2, 4, 6, 7,
+      1, 3, 4, 5, 7,
+      1, 3, 4, 6, 7
+    ]);
+  });
 });
