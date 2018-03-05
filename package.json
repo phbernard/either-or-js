@@ -1,6 +1,6 @@
 {
   "name": "either-or",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Write code as branches to be enumerated",
   "main": "index.js",
   "scripts": {
